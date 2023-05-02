@@ -1,5 +1,6 @@
 from sklearn import svm
 import pandas as pd
+from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 from sklearn import tree
@@ -22,10 +23,15 @@ clf_svm = svm.SVC(gamma=0.001, C=100.0)
 y_svm = dados['diagnosis']  #atributo classe
 X_svm = dados.drop(columns='diagnosis') #atributos descritores
 
-X_train, X_test, y_train, y_test = train_test_split(X_svm, y_svm, test_size = 0.50)
+X_train, X_test, y_train, y_test = train_test_split(X_svm, y_svm, test_size = 1)
 
 arvore_clf = tree.DecisionTreeClassifier()
 arvore_clf.fit(X_train,y_train)
+
+#Real vs predito = Split
+saida_train = arvore_clf.predict(X_test)
+acuracia = accuracy_score(y_test, saida_train)
+print('Acurácia: %0.2f precisão no test split' % acuracia)
 
 #cross-validation
 scores_svm = cross_val_score(arvore_clf, X_svm, y_svm, cv=10, scoring='accuracy')
