@@ -2,7 +2,7 @@ import tkinter as tk
 import numpy as np
 import pickle
 
-from back_end import X_train, y_train
+from back_end import X_svm, y_svm
 
 # Função para obter os valores dos campos de entrada e fazer previsões
 def fazer_previsao():
@@ -20,7 +20,7 @@ def fazer_previsao():
     with open('modelo_treinado.pkl', 'rb') as arquivo:
         modelo = pickle.load(arquivo)
 
-        modelo.fit(X_train, y_train)
+        #modelo.fit(X_svm, y_svm)
 
     # Fazer a previsão com o modelo treinado
     previsao = modelo.predict(entrada)

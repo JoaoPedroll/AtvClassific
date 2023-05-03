@@ -20,22 +20,14 @@ dados.drop(columns=['id','Unnamed: 32','compactness_mean', 'concavity_mean',
 
 clf_svm = svm.SVC(gamma=0.001, C=100.0)
 
-y_svm = dados['diagnosis']  #atributo classe
-X_svm = dados.drop(columns='diagnosis') #atributos descritores
+y_svm = dados['diagnosis']
+X_svm = dados.drop(columns='diagnosis')
 
-X_train, X_test, y_train, y_test = train_test_split(X_svm, y_svm, test_size = 1)
+
 
 arvore_clf = tree.DecisionTreeClassifier()
-arvore_clf.fit(X_train,y_train)
+arvore_clf.fit(X_svm,y_svm)
 
-#Real vs predito = Split
-saida_train = arvore_clf.predict(X_test)
-acuracia = accuracy_score(y_test, saida_train)
-print('Acurácia: %0.2f precisão no test split' % acuracia)
-
-#cross-validation
-scores_svm = cross_val_score(arvore_clf, X_svm, y_svm, cv=10, scoring='accuracy')
-print("Acuracia: %0.2f precisão com um desvio padrão de %0.2f" % (scores_svm.mean(), scores_svm.std()))
 
 with open('modelo_treinado.pkl', 'wb') as arquivo:
     pickle.dump(arvore_clf, arquivo)
